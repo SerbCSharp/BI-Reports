@@ -1,14 +1,12 @@
-﻿using System;
-using System.Runtime.InteropServices.JavaScript; // Обязательно
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices.JavaScript; // Обязательно
 
 namespace UIImmersive.Domain
 {
     public static partial class MyJsInterop
     {
         // 1. Маршаллинг простых типов и строк выполняется автоматически
-        [JSImport("showAlert", "myModule")]
-        public static partial void ShowAlert(string message);
+        [JSImport("initThree", "threeWrapper")]
+        public static partial void InitThree(string message);
 
         //// 2. Явный маршаллинг сложных типов (например, даты и функций обратного вызова)
         //[JSImport("processData", "myModule")]

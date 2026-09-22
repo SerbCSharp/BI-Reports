@@ -1,17 +1,16 @@
 ﻿@page "/"
 @using System.Runtime.InteropServices.JavaScript
 
-<h1>Тестирование JSImport</h1>
+<!-- Привязываем уникальный ID к элементу canvas -->
+<canvas id="three-canvas" style="width: 100%; height: 100%; display: block;"></canvas>
 <button @onclick="TriggerAlert">Вызвать Alert</button>
 
 @code {
     protected override async Task OnInitializedAsync()
     {
-        // Убедитесь, что код выполняется в браузере (на WebAssembly)
         if (OperatingSystem.IsBrowser())
         {
-            // Загружаем JS-файл и связываем его с идентификатором "MyModule"
-            await JSHost.ImportAsync("myModule", "../myModule.js");
+            await JSHost.ImportAsync("threeWrapper", "/js/threeWrapper.js");
         }
     }
 
@@ -19,7 +18,7 @@
     {
         if (OperatingSystem.IsBrowser())
         {
-            MyJsInterop.ShowAlert("Привет мир!");
+            MyJsInterop.InitThree("three-canvas");
         }
     }
 }
