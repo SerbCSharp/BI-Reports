@@ -1,7 +1,25 @@
 ﻿@page "/"
+@using System.Runtime.InteropServices.JavaScript
 
-<PageTitle>Home</PageTitle>
+<h1>Тестирование JSImport</h1>
+<button @onclick="TriggerAlert">Вызвать Alert</button>
 
-<h1>Hello, world!</h1>
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        // Убедитесь, что код выполняется в браузере (на WebAssembly)
+        if (OperatingSystem.IsBrowser())
+        {
+            // Загружаем JS-файл и связываем его с идентификатором "MyModule"
+            await JSHost.ImportAsync("myModule", "../myModule.js");
+        }
+    }
 
-Welcome to your new app.
+    private void TriggerAlert()
+    {
+        if (OperatingSystem.IsBrowser())
+        {
+            MyJsInterop.ShowAlert("Привет мир!");
+        }
+    }
+}
