@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="UIClassic/UIClassic.csproj" />
+  <Project Path="UIImmersive/UIImmersive.csproj" />
+</Solution>
