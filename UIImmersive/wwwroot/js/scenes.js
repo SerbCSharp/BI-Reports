@@ -1,4 +1,5 @@
-﻿import * as THREE from '/js/three.module.js';
+﻿import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 let scene, camera, renderer, model;
 
@@ -17,8 +18,11 @@ export function defaultScene(canvasId) {
     scene.add(model);
 
     camera.position.z = 5;
+    const orbitControls = new OrbitControls(camera, canvas);
+    orbitControls.enableDamping = true;
 
     function tick() {
+        orbitControls.update();
         if (model) model.rotation.y += 0.01
         renderer.render(scene, camera);
         window.requestAnimationFrame(tick);
