@@ -1,33 +1,48 @@
 ﻿import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-let scene, camera, renderer, model;
-
 export function defaultScene(canvasId) {
-    const canvas = document.getElementById(canvasId);
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
 
-    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
-    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    const canvas = document.getElementById(canvasId);
+    const scene = new THREE.Scene();
+
+    const planeGeometry = new THREE.PlaneGeometry(28.2, 48.6);
+        const planeMaterial = new THREE.MeshBasicMaterial({
+            color: "slategrey",
+            side: THREE.DoubleSide,
+        });
+        const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+        plane.receiveShadow = true;
+        plane.rotateZ(-0.5 * Math.PI);
+        plane.position.y = -0.82;
+
+    scene.add(plane);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 200);
+    camera.position.z = 40;
+
+    const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    const geometry = new THREE.TorusKnotGeometry(1, 0.3, 100, 16);
-    const material = new THREE.MeshNormalMaterial();
-    model = new THREE.Mesh(geometry, material);
-    scene.add(model);
-
-    camera.position.z = 5;
     const orbitControls = new OrbitControls(camera, canvas);
     orbitControls.enableDamping = true;
 
-    function tick() {
+    const renderloop = () => {
         orbitControls.update();
-        if (model) model.rotation.y += 0.01
         renderer.render(scene, camera);
-        window.requestAnimationFrame(tick);
-    }
-    tick();
+        window.requestAnimationFrame(renderloop);
+    };
+
+    renderloop();
+
+    window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
 }
 
 export function sceneTransition(sceneId) {
