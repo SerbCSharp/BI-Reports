@@ -1,24 +1,15 @@
 ﻿@page "/"
-@using System.Runtime.InteropServices.JavaScript
 
-<!-- Привязываем уникальный ID к элементу canvas -->
-<canvas id="three-canvas" style="width: 100%; height: 100%; display: block;"></canvas>
-<button @onclick="TriggerAlert">Вызвать Alert</button>
+<div class="site-container">
+    <div class="info-panel">
+        <h1>Инновационный продукт</h1>
 
-@code {
-    protected override async Task OnInitializedAsync()
-    {
-        if (OperatingSystem.IsBrowser())
-        {
-            await JSHost.ImportAsync("threeWrapper", "/js/threeWrapper.js");
-        }
-    }
+        <button @onclick='() => SceneTransition("home")'>Главная</button>
+        <button @onclick='() => SceneTransition("features")'>Преимущества</button>
+        <button @onclick='() => SceneTransition("contacts")'>Контакты</button>
+    </div>
 
-    private void TriggerAlert()
-    {
-        if (OperatingSystem.IsBrowser())
-        {
-            MyJsInterop.InitThree("three-canvas");
-        }
-    }
-}
+    <div class="canvas-container">
+        <canvas id="@canvasId" class="3d-viewer"></canvas>
+    </div>
+</div>
