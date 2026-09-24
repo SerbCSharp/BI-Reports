@@ -1,7 +1,29 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<MudText Typo="Typo.h5" Class="mb-4">Мой Календарь</MudText>
 
-<h1>Hello, world!</h1>
+<MudGrid>
+    <MudItem xs="12" md="6">
+        <!-- Статический календарь -->
+        <MudDatePicker Label="Выберите дату"
+                       PickerVariant="PickerVariant.Static"
+                       @bind-Date="selectedDate"
+                       Color="Color.Primary"
+                       Rounded="true"
+                       Elevation="4" />
+    </MudItem>
 
-Welcome to your new app.
+    <MudItem xs="12" md="6">
+        <MudPaper Class="pa-4" Elevation="2">
+            <MudText Typo="Typo.h6">Выбранный день:</MudText>
+            <MudText Typo="Typo.body1" Color="Color.Secondary" Class="mt-2">
+                @(selectedDate?.ToString("dd MMMM yyyy") ?? "Дата не выбрана")
+            </MudText>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+    // Переменная для хранения выбранной даты (DateTime?)
+    private DateTime? selectedDate = DateTime.Today;
+}
